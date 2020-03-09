@@ -17,20 +17,20 @@ public class SummaryController {
   @Autowired
   GetHotelsService getHotelsService;
 
-  @RequestMapping(value = "/getInfosForUrlRequestFromFrontend", method = RequestMethod.POST)
-  /*@ResponseBody*/  //if you not use this annotation,you get " javax.servlet.ServletException: Circular view path [...] "
+  /*@RequestMapping(value = "/getInfosForUrlRequestFromFrontend", method = RequestMethod.POST)
+  *//*@ResponseBody*//*  //if you not use this annotation,you get " javax.servlet.ServletException: Circular view path [...] "
   private String getAirportsForCountry(String selectedCountryName) {
 
     System.out.println("fffffffffffffffffff:" + selectedCountryName.replaceAll("\"", "").trim());
 
 
     return "redirect:/hotelApi";
-  }
+  }*/
 
   @RequestMapping(value = "/hotelApi", method = RequestMethod.GET)
   public String summary(ModelMap modelMap) throws IOException {
 
-    //modelMap.addAttribute("summaryHotels", getHotelsService.getAllHotels(page,checkInDate,checkOutDate,adultCount,childCount,childAge1,childAge2,childAge3));
+    modelMap.addAttribute("summaryHotels", getHotelsService.getAllHotels());
 
 
     return "summary";
