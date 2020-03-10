@@ -126,7 +126,6 @@ public class GetHotelsServiceImpl implements GetHotelsService {
     in.close();
 
     String hotelResults[] = response.substring(response.lastIndexOf("resultdata:") + 12).split("event: closedata: null");
-    System.out.println("DDDDDDDDDDDDDDDDDDDD" + response.substring(response.lastIndexOf("resultdata:") + 12));
 
     System.out.println("DDDDDDDDDDDDDDDDDDDD fileleeeee" + hotelResults[0]);
 

@@ -4,8 +4,8 @@
   margin: 0;
   position: absolute;
   vertical-align: middle;
-  left:1400px;    /*This is css for country choose*/
-  top:123px;
+  left:-251px;    /*This is css for country choose*/
+  top:-55px;
 }
 
 .select2-container .select2-selection--single {
