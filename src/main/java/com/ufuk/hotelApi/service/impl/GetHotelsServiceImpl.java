@@ -10,8 +10,10 @@ import com.ufuk.hotelApi.service.GetHotelsService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
@@ -126,6 +128,8 @@ public class GetHotelsServiceImpl implements GetHotelsService {
     in.close();
 
     String hotelResults[] = response.substring(response.lastIndexOf("resultdata:") + 12).split("event: closedata: null");
+    String modifyImageURL[];
+    String lastVersionModifyImageURL;
 
     System.out.println("DDDDDDDDDDDDDDDDDDDD fileleeeee" + hotelResults[0]);
 
@@ -134,10 +138,43 @@ public class GetHotelsServiceImpl implements GetHotelsService {
     for (BaseObject o : baseObjects.getBaseObjects()) {
       String jsonObject = gson.toJson(o); //Converting our Object type to JSON type.
       BaseObject baseObject = gson.fromJson(jsonObject, BaseObject.class);//Converting our JSON type to baseobject type.In here,our datas are filled in Baseobject fields.
+
+      /**
+       * We want to access thumbnailImage property with Reflection. As you see this is layered structure of JSON.
+       * Field declaredField : baseObject.getDetails().getExtra().getClass().getDeclaredFields() -->This is how we accessed the layered structure of JSON
+       *
+       * ( Aşağıdaki gibi katmanlı yapıdaki bir elemana erişmek istiyorsak Reflection (Yansıma) for'unu yukardaki gibi dizayn ederiz.
+       * Yapısı bu JSON'un.
+       * {
+       *    details:
+       *      {
+       *         extra:
+       *          {
+       *            image_count:
+       *            thumbnailImage:
+       *          }
+       *      }
+       * }
+       */
+
+      for (Field declaredField : baseObject.getDetails().getExtra().getClass().getDeclaredFields()) {
+        System.out.println("GİRDİİİİİİİİİİİİİ BURAAAA --->" + declaredField);
+        System.out.println("GİRDİİİİİİİİİİİİİ BURAAAA : " + baseObject.getDetails().getExtra().getClass().getDeclaredFields().length);
+        if (!declaredField.getName().equalsIgnoreCase("thumbnailImage") && baseObject.getDetails().getExtra().getClass().getDeclaredFields().length==1){
+          System.out.println("thumbnailImage yoookkkk ayarlanıyor......"+ declaredField);
+          baseObject.getDetails().getExtra().setThumbnailImage("");
+        }
+
+      }
       //From jsonObject(JSON) to BaseObject.class(BaseObject type)
+      modifyImageURL = baseObject.getDetails().getExtra().getThumbnailImage().split("0x0");
+      System.out.println("11111111111111112222222222223333333333333333" + Arrays.toString(modifyImageURL));
+      lastVersionModifyImageURL = modifyImageURL[0]+"1x250"+modifyImageURL[1];
+      baseObject.getDetails().getExtra().setThumbnailImage(lastVersionModifyImageURL);
+      System.out.println(" MOOOOOOOOOOODDDDDDDDDDIIIIIIIIIFFFFFFFFFFFFFFYYYYYY" + lastVersionModifyImageURL);
       log.info("trying to save hotels object: {}", baseObject);
       mongoTemplate.save(baseObject, CollectionNames.OBJECTS.toString());
-      log.info("successfully saved weather object with Id:{}", baseObject.getId());
+      log.info("successfully saved hotel object with Id:{}", baseObject.getId());
       reqCount++;
       System.out.println(baseObject);
 
