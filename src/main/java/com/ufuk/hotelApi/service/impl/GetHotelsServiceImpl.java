@@ -32,7 +32,10 @@ public class GetHotelsServiceImpl implements GetHotelsService {
   GetHotelsService getHotelsService;
 
   private int flag = 0;
+  private int missingPropertyDetected = 0;
   private int reqCount = 0;
+  private int counter = 0;
+  private int counter2 = 0;
 
   public GetHotelsServiceImpl(MongoTemplate mongoTemplate) {
     this.mongoTemplate = mongoTemplate;
@@ -87,7 +90,6 @@ public class GetHotelsServiceImpl implements GetHotelsService {
         //Hotels  void yerine. Eğer dataları döndürmek istiyorsak.
   public void readAndSaveMongoDb(Integer page,String checkInDate,String checkOutDate,Integer adultCount,Integer childCount,Integer childAge1,Integer childAge2,Integer childAge3) throws IOException,JSONException {
     log.info("trying to get hotels from url.");
-
     String url="";
     if(childCount == 0){
       System.out.println("No Child URL" );
@@ -140,6 +142,7 @@ public class GetHotelsServiceImpl implements GetHotelsService {
       BaseObject baseObject = gson.fromJson(jsonObject, BaseObject.class);//Converting our JSON type to baseobject type.In here,our datas are filled in Baseobject fields.
 
       /**
+       * Just for information. ( If need to use reflection)
        * We want to access thumbnailImage property with Reflection. As you see this is layered structure of JSON.
        * Field declaredField : baseObject.getDetails().getExtra().getClass().getDeclaredFields() -->This is how we accessed the layered structure of JSON
        *
@@ -157,21 +160,33 @@ public class GetHotelsServiceImpl implements GetHotelsService {
        * }
        */
 
-      for (Field declaredField : baseObject.getDetails().getExtra().getClass().getDeclaredFields()) {
-        System.out.println("GİRDİİİİİİİİİİİİİ BURAAAA --->" + declaredField);
-        System.out.println("GİRDİİİİİİİİİİİİİ BURAAAA : " + baseObject.getDetails().getExtra().getClass().getDeclaredFields().length);
-        if (!declaredField.getName().equalsIgnoreCase("thumbnailImage") && baseObject.getDetails().getExtra().getClass().getDeclaredFields().length==1){
-          System.out.println("thumbnailImage yoookkkk ayarlanıyor......"+ declaredField);
+      /*for (Field declaredField : baseObject.getDetails().getExtra().getClass().getDeclaredFields()) {
+
+        if(baseObject.getDetails().getExtra().getThumbnailImage() == null){
           baseObject.getDetails().getExtra().setThumbnailImage("");
         }
 
+      }*/
+
+      if(baseObject.getDetails().getExtra().getThumbnailImage() == null){
+        missingPropertyDetected = 1;
+        System.out.println("thumbnailImage yoookkkk ayarlanıyor......");
+        counter++;
+        baseObject.getDetails().getExtra().setThumbnailImage("");
       }
+
       //From jsonObject(JSON) to BaseObject.class(BaseObject type)
-      modifyImageURL = baseObject.getDetails().getExtra().getThumbnailImage().split("0x0");
-      System.out.println("11111111111111112222222222223333333333333333" + Arrays.toString(modifyImageURL));
-      lastVersionModifyImageURL = modifyImageURL[0]+"1x250"+modifyImageURL[1];
-      baseObject.getDetails().getExtra().setThumbnailImage(lastVersionModifyImageURL);
-      System.out.println(" MOOOOOOOOOOODDDDDDDDDDIIIIIIIIIFFFFFFFFFFFFFFYYYYYY" + lastVersionModifyImageURL);
+
+      if(missingPropertyDetected != 1){
+        modifyImageURL = baseObject.getDetails().getExtra().getThumbnailImage().split("0x0");
+        lastVersionModifyImageURL = modifyImageURL[0]+"1x250"+modifyImageURL[1];
+        baseObject.getDetails().getExtra().setThumbnailImage(lastVersionModifyImageURL);
+
+      }else{
+        System.out.println("Missing property detected!");
+        missingPropertyDetected = 0;
+      }
+
       log.info("trying to save hotels object: {}", baseObject);
       mongoTemplate.save(baseObject, CollectionNames.OBJECTS.toString());
       log.info("successfully saved hotel object with Id:{}", baseObject.getId());

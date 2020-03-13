@@ -2722,41 +2722,21 @@
 
                <ul id="allHotelsList" style="position:relative; top:20px; left:272px;color: #666;list-style:square;padding: 0;margin-left:20px; font-size:12px; overflow-y:auto; overflow-x:hidden; width:770px; height:750px; padding:20px;">
                  <script>
-                   var i = 0;
-                   var lastVersionModifiedImageURL;
+                   var i = 1;
                  </script>
                  {{#summaryHotels}}
-                 <!--<div class="imageUrlName" style="visibility: hidden;">{{details.extra.thumbnailImage}}</div>-->
 
-                 <!--Burada url'ye ulaştık. Daha sonra onu modifiye ederek tekrardan img tagına source olarak vereceğiz.-->
-                 <!--We have accessed the url here. We'll change the url and assign to the image tag as source.-->
-                 <!--<script>
-                   var imageURL;
-                   var modifiedImageURL;
-
-                   /*for(var i=0 ; i<document.getElementsByClassName("imageUrlName").length; i++){*/
-
-                   imageURL = document.getElementsByClassName("imageUrlName")[i].innerHTML;
-                   modifiedImageURL = imageURL.split("0x0");
-                   lastVersionModifiedImageURL = modifiedImageURL[0]+"1x250"+modifiedImageURL[1];
-                   console.log("modified url" , lastVersionModifiedImageURL);
-                   //document.getElementById("imageId").src=lastVersionModifiedImageURL;
-                   $('div.active img').attr('src', lastVersionModifiedImageURL);
-                   i++;
-
-                 </script>-->
-
-                <li style="list-style: none; background-color: rgba(255, 255, 255, .8); padding: 20px; margin: 20px; column-count: 1; height:190px; width: 700px">
+                <li style="list-style: none; background-color: rgba(255, 255, 255, .8); padding: 10px; margin: 20px; column-count: 1; height:190px; width: 700px">
                   <div style="display: table">
-                    <div id="imageDiv" class="active" style=" display: table-cell; height: 150px;width: 80px;">
-                      <img src="https://cdn3.enuygun.com/media/lib/1x250/uploads/image/derin-suit-39543933.jpg" style="width: 225px;">
+                    <div id="imageDiv" class="active" style=" display: table-cell; height: 150px;float: left;">
+                      <img src={{details.extra.thumbnailImage}} style="width: 225px;">
                     </div>
 
-                    <div style="display: table-cell;width: 372px;height: 34px;position: relative; left: 37px;">
-                      <h2 style="font-size: 21px;margin: 3px;"><label>Hotel Name: </label>{{details.name}}</h2>
-                      <h2 style="font-size: 17px;margin: 3px;"><label>Region: </label>{{details.address.town}}</h2>
-                      <h2 style="font-size: 17px;margin: 3px;"><label>City: </label>{{details.address.city}}</h2>
-                      <h2 style="font-size: 17px;margin: 3px;"><label>Country: </label>{{details.address.country}}</h2>
+                    <div style="display: table-cell;">
+                      <h2 style="font-size: 21px;margin: 10px;"><label>{{details.name}}</label></h2>
+                      <h2 style="font-size: 17px;margin: 10px;">{{details.address.town}},{{details.address.city}},<label>{{details.address.country}}</label></h2>
+                      <!--<h2 style="font-size: 17px;margin: 3px;"><label>City: </label>{{details.address.city}}</h2>-->
+                      <!--<h2 style="font-size: 17px;margin: 3px;"><label>Country: </label>{{details.address.country}}</h2>-->
                     </div>
                   </div>
                 </li>
