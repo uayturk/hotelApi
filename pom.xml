@@ -37,6 +37,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
 <dependencies>
 
+  <!-- https://mvnrepository.com/artifact/jstl/jstl -->
+  <dependency>
+    <groupId>jstl</groupId>
+    <artifactId>jstl</artifactId>
+    <version>1.2</version>
+  </dependency>
+
   <dependency>
     <groupId>com.google.code.gson</groupId>
     <artifactId>gson</artifactId>

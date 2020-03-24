@@ -170,7 +170,6 @@ public class GetHotelsServiceImpl implements GetHotelsService {
 
       if(baseObject.getDetails().getExtra().getThumbnailImage() == null){
         missingPropertyDetected = 1;
-        System.out.println("thumbnailImage yoookkkk ayarlanıyor......");
         counter++;
         baseObject.getDetails().getExtra().setThumbnailImage("");
       }
@@ -210,11 +209,11 @@ public class GetHotelsServiceImpl implements GetHotelsService {
       System.out.println("Available count divideeeee : " + (baseObjects.getAvailableCount()/50));
       for(int i = 0; i<=(baseObjects.getAvailableCount()/50); i++){
         reqCount++;
-        System.out.println("REEEEEQQQQQQQQQQCCCOOUUUUUUNNNTTTTT : " + reqCount );
+        System.out.println("REQCOUNT : " + reqCount );
         readAndSaveMongoDb(page++,checkInDate,checkOutDate,adultCount,childCount,childAge1,childAge2,childAge3);
       }
     }
-    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa : " + baseObjects );
+    System.out.println("BaseObjects : " + baseObjects );
      //return baseObjects;
   }
 
