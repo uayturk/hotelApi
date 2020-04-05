@@ -93,21 +93,21 @@ public class GetHotelsServiceImpl implements GetHotelsService {
     String url="";
     if(childCount == 0){
       System.out.println("No Child URL" );
-      url = "https://otel.enuygun.com/otel/async-result?page="+page+"&sortBy=2&checkInDate="+checkInDate+"&checkOutDate="+checkOutDate+"&rooms="+adultCount+"&query=antalya-481&hotel=&limit=50&ffr=1&p=search&ref=search";
+      url = "https://otel.enuygun.com/otel/async-result?page="+page+"&sortBy=2&checkInDate="+checkInDate+"&checkOutDate="+checkOutDate+"&rooms="+adultCount+"&regionId=462&limit=50&ffr=1&p=search&ref=search";
+
     }else{
       System.out.println("With Child URL" );
       if(childCount == 1){
         System.out.println("1 Child Available hotels URL" );
-        url = "https://otel.enuygun.com/otel/async-result?page="+page+"&sortBy=2&checkInDate="+checkInDate+"&checkOutDate="+checkOutDate+"&rooms="+adultCount+"%2C"+childAge1+"&query=antalya-481&hotel=&limit=50&ffr=1&p=search&ref=search";
+        url = "https://otel.enuygun.com/otel/async-result?page="+page+"&sortBy=2&checkInDate="+checkInDate+"&checkOutDate="+checkOutDate+"&rooms="+adultCount+"%2C"+childAge1+"&regionId=462&limit=50&ffr=1&hos=false&p=search&ref=search";
+
       }else if(childCount == 2){
         System.out.println("2 Child Available hotels URL" );
-        url = "https://otel.enuygun.com/otel/async-result?page="+page+"&sortBy=2&checkInDate="+checkInDate+"&checkOutDate="+checkOutDate+"&rooms="+adultCount+"%2C"+childAge1+"%2C"+childAge2+"&query=antalya-481&hotel=&limit=50&ffr=1&p=search&ref=search";
+        url = "https://otel.enuygun.com/otel/async-result?page="+page+"&sortBy=2&checkInDate="+checkInDate+"&checkOutDate="+checkOutDate+"&rooms="+adultCount+"%2C"+childAge1+"%2C"+childAge2+"&regionId=462&limit=50&ffr=1&hos=false&p=search&ref=search";
       }else if(childCount == 3){
         System.out.println("3 Child Available hotels URL" );
-        url = "https://otel.enuygun.com/otel/async-result?page="+page+"&sortBy=2&checkInDate="+checkInDate+"&checkOutDate="+checkOutDate+"&rooms="+adultCount+"%2C"+childAge1+"%2C"+childAge2+"%2C"+childAge3+"&query=antalya-481&hotel=&limit=50&ffr=1&p=search&ref=search";
+        url = "https://otel.enuygun.com/otel/async-result?page="+page+"&sortBy=2&checkInDate="+checkInDate+"&checkOutDate="+checkOutDate+"&rooms="+adultCount+"%2C"+childAge1+"%2C"+childAge2+"%2C"+childAge3+"&regionId=462&limit=50&ffr=1&hos=false&p=search&ref=search";
       }
-
-
     }
     URL obj = new URL(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -197,8 +197,8 @@ public class GetHotelsServiceImpl implements GetHotelsService {
 
     System.out.println("Available count : " + baseObjects.getAvailableCount());
     //System.out.println("Divide count : " + requestCount);
+    System.out.println("FLAAAAAAAAAAAAAAAAAGGGGGGG : " + flag);
     System.out.println("Mod count : " + (baseObjects.getAvailableCount()%50));
-
 
     //When we call method like below recursively, "for" condition is run only once thanks to the flag.
     if(flag == 0){
