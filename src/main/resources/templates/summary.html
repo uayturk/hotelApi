@@ -2723,6 +2723,7 @@
                <ul id="allHotelsList" style="position:relative; top:20px; left:272px;color: #666;list-style:square;padding: 0;margin-left:20px; font-size:12px; overflow-y:auto; overflow-x:hidden; width:770px; height:750px; padding:20px;">
                  <script>
                    var i = 0 ;
+                   var j = 0 ;
                  </script>
                  {{#summaryHotels}}
                 <li style="list-style: none; background-color: rgba(255, 255, 255, .8); padding: 10px; margin: 20px; column-count: 1; height:190px; width: 700px">
@@ -2732,21 +2733,37 @@
                     </div>
 
                     <div style="display: table-cell;">
-                      <h2 style="font-size: 21px;margin: 10px;"><label>{{details.name}}</label></h2>
-                      <h2 style="font-size: 17px;margin: 10px;">{{details.address.town}},{{details.address.city}},<label>{{details.address.country}}</label><label style="position: absolute;left: 693px;">{{details.reviewScoreLocalized}}</label></h2>
-                      <h2 style="font-size: 15px;margin: 10px;"><label name="label"></label></h2>
-                      <!--<h2 style="font-size: 17px;margin: 3px;"><label>Country: </label>{{details.address.country}}</h2>-->
+                      <h2 style="font-size: 21px;margin: 10px;display: inline">
+                        <label style="width: 310px;">{{details.name}}</label>
+                        <div style="position: relative;left:75px;height:35px;width:57px;border-radius: 4px; background-color: #1b2f6f;text-align: center;display: inline-block">
+                          <label style="position:relative; top:5px; color: white;">{{details.reviewScoreLocalized}}</label>
+                        </div>
+                      </h2>
+                      <h2 style="font-size: 17px;margin: 10px;">
+                        {{details.address.town}},{{details.address.city}},
+                        <label>{{details.address.country}}</label>
+                      </h2>
+                      <h2 style="font-size: 15px;margin: 10px;"><label name="roomStatus"></label></h2>
+                      <h2 style="font-size: 15px;margin: 10px;"><label name="suitabilitiesFull"></label></h2>
 
                     </div>
 
                     <script>
                       var rooms = "{{rooms}}";
                       var roomStatus = [];
-                      roomStatus = rooms.substring(rooms.lastIndexOf("name&#x3D;")+10).split(", typeCode&#x3D");
 
-                      console.log("Room Status : ",roomStatus[0]);
-                      document.getElementsByName('label')[i].innerText = roomStatus[0];
+                      roomStatus = rooms.substring(rooms.lastIndexOf("name&#x3D;")+10).split(", typeCode&#x3D");
+                      document.getElementsByName('roomStatus')[i].innerText = roomStatus[0];
                       i++;
+                    </script>
+
+                    <script>
+                      var suitabilities = "{{details.suitabilities}}";
+                      var suitabilitiesFull;
+
+                      suitabilitiesFull = suitabilities.substring(1, suitabilities.length-1);
+                      document.getElementsByName('suitabilitiesFull')[j].innerText = suitabilitiesFull;
+                      j++;
                     </script>
                   </div>
                 </li>
